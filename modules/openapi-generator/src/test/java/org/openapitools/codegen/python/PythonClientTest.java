@@ -15,6 +15,14 @@
  */
 
 package org.openapitools.codegen.python;
+import com.google.common.io.Resources;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import org.apache.commons.io.IOUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 
 import com.google.common.collect.Sets;
@@ -33,6 +41,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.TestNGAntTask.Mode;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")
@@ -425,4 +434,23 @@ public class PythonClientTest {
         final CodegenModel model = codegen.fromModel(modelName, modelSchema);
         Assert.assertEquals((int) model.getMinProperties(), 1);
     }
+
+    @Test(description = "tests RecursiveToExample")
+    public void testRecursiveToExample() throws IOException {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8052_recursive_model.yaml");
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = ModelUtils.getSchema(openAPI, "GeoJsonGeometry");
+        String exampleValue = codegen.toExampleValue(schema, null);
+
+        String expectedValue = Resources.toString(
+                Resources.getResource("3_0/issue_8052_recursive_model_expected_value.txt"),
+                StandardCharsets.UTF_8);
+
+
+        Assert.assertEquals(expectedValue.trim(), exampleValue.trim());
+
+    }
+
 }
