@@ -48,9 +48,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = AnimalFarm([
-        Animal(),
-    ]) # AnimalFarm | Input model (optional)
+    body = AnimalFarm(AnimalFarm) # AnimalFarm | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -175,55 +173,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    xml_item = XmlItem(
-        attribute_string="string",
-        attribute_number=1.234,
-        attribute_integer=-2,
-        attribute_boolean=True,
-        wrapped_array=[
-            1,
-        ],
-        name_string="string",
-        name_number=1.234,
-        name_integer=-2,
-        name_boolean=True,
-        name_array=[
-            1,
-        ],
-        name_wrapped_array=[
-            1,
-        ],
-        prefix_string="string",
-        prefix_number=1.234,
-        prefix_integer=-2,
-        prefix_boolean=True,
-        prefix_array=[
-            1,
-        ],
-        prefix_wrapped_array=[
-            1,
-        ],
-        namespace_string="string",
-        namespace_number=1.234,
-        namespace_integer=-2,
-        namespace_boolean=True,
-        namespace_array=[
-            1,
-        ],
-        namespace_wrapped_array=[
-            1,
-        ],
-        prefix_ns_string="string",
-        prefix_ns_number=1.234,
-        prefix_ns_integer=-2,
-        prefix_ns_boolean=True,
-        prefix_ns_array=[
-            1,
-        ],
-        prefix_ns_wrapped_array=[
-            1,
-        ],
-    ) # XmlItem | XmlItem Body
+    xml_item = XmlItem(XmlItem) # XmlItem | XmlItem Body
 
     # example passing only required values which don't have defaults set
     try:
@@ -285,7 +235,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = NumberWithValidations(1E+1) # NumberWithValidations | Input number as post body (optional)
+    body = NumberWithValidations(NumberWithValidations) # NumberWithValidations | Input number as post body (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -348,11 +298,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = ObjectModelWithRefProps(
-        my_number=NumberWithValidations(1E+1),
-        my_string="my_string_example",
-        my_boolean=True,
-    ) # ObjectModelWithRefProps | Input model (optional)
+    body = ObjectModelWithRefProps(ObjectModelWithRefProps) # ObjectModelWithRefProps | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -477,7 +423,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = StringEnum("placed") # StringEnum | Input enum (optional)
+    body = StringEnum(StringEnum) # StringEnum | Input enum (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -540,16 +486,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = FileSchemaTestClass(
-        file=File(
-            source_uri="source_uri_example",
-        ),
-        files=[
-            File(
-                source_uri="source_uri_example",
-            ),
-        ],
-    ) # FileSchemaTestClass | 
+    body = FileSchemaTestClass(FileSchemaTestClass) # FileSchemaTestClass | 
 
     # example passing only required values which don't have defaults set
     try:
@@ -609,16 +546,7 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
     query = "query_example" # str | 
-    body = User(
-        id=1,
-        username="username_example",
-        first_name="first_name_example",
-        last_name="last_name_example",
-        email="email_example",
-        password="password_example",
-        phone="phone_example",
-        user_status=1,
-    ) # User | 
+    body = User(User) # User | 
 
     # example passing only required values which don't have defaults set
     try:
@@ -680,9 +608,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = Client(
-        client="client_example",
-    ) # Client | client model
+    body = Client(Client) # Client | client model
 
     # example passing only required values which don't have defaults set
     try:

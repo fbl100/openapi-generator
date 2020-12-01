@@ -230,14 +230,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = store_api.StoreApi(api_client)
-    order = Order(
-        id=1,
-        pet_id=1,
-        quantity=1,
-        ship_date=dateutil_parser('2020-02-02T20:20:20.000222Z'),
-        status="placed",
-        complete=False,
-    ) # Order | order placed for purchasing the pet
+    order = Order(Order) # Order | order placed for purchasing the pet
 
     # example passing only required values which don't have defaults set
     try:

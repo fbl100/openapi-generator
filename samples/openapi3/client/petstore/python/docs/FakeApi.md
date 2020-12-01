@@ -50,11 +50,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    additional_properties_with_array_of_enums = AdditionalPropertiesWithArrayOfEnums(
-        "key": [
-            EnumClass("-efg"),
-        ],
-    ) # AdditionalPropertiesWithArrayOfEnums | Input enum (optional)
+    additional_properties_with_array_of_enums = AdditionalPropertiesWithArrayOfEnums(AdditionalPropertiesWithArrayOfEnums) # AdditionalPropertiesWithArrayOfEnums | Input enum (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -118,9 +114,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = AnimalFarm([
-        Animal(),
-    ]) # AnimalFarm | Input model (optional)
+    body = AnimalFarm(AnimalFarm) # AnimalFarm | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -181,9 +175,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    array_of_enums = ArrayOfEnums([
-        StringEnum("placed"),
-    ]) # ArrayOfEnums | Input enum (optional)
+    array_of_enums = ArrayOfEnums(ArrayOfEnums) # ArrayOfEnums | Input enum (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -309,7 +301,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    composed_one_of_number_with_validations = ComposedOneOfNumberWithValidations() # ComposedOneOfNumberWithValidations | Input model (optional)
+    composed_one_of_number_with_validations = ComposedOneOfNumberWithValidations(ComposedOneOfNumberWithValidations) # ComposedOneOfNumberWithValidations | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -429,11 +421,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    mammal = Mammal(
-        has_baleen=True,
-        has_teeth=True,
-        class_name="whale",
-    ) # Mammal | Input mammal
+    mammal = Mammal(Mammal) # Mammal | Input mammal
 
     # example passing only required values which don't have defaults set
     try:
@@ -495,7 +483,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = NumberWithValidations(10) # NumberWithValidations | Input number as post body (optional)
+    body = NumberWithValidations(NumberWithValidations) # NumberWithValidations | Input number as post body (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -558,11 +546,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = ObjectModelWithRefProps(
-        my_number=NumberWithValidations(10),
-        my_string="my_string_example",
-        my_boolean=True,
-    ) # ObjectModelWithRefProps | Input model (optional)
+    body = ObjectModelWithRefProps(ObjectModelWithRefProps) # ObjectModelWithRefProps | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -687,7 +671,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = StringEnum("placed") # StringEnum | Input enum (optional)
+    body = StringEnum(StringEnum) # StringEnum | Input enum (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -750,16 +734,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    file_schema_test_class = FileSchemaTestClass(
-        file=File(
-            source_uri="source_uri_example",
-        ),
-        files=[
-            File(
-                source_uri="source_uri_example",
-            ),
-        ],
-    ) # FileSchemaTestClass | 
+    file_schema_test_class = FileSchemaTestClass(FileSchemaTestClass) # FileSchemaTestClass | 
 
     # example passing only required values which don't have defaults set
     try:
@@ -819,20 +794,7 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
     query = "query_example" # str | 
-    user = User(
-        id=1,
-        username="username_example",
-        first_name="first_name_example",
-        last_name="last_name_example",
-        email="email_example",
-        password="password_example",
-        phone="phone_example",
-        user_status=1,
-        object_with_no_declared_props={},
-        object_with_no_declared_props_nullable={},
-        any_type_prop=None,
-        any_type_prop_nullable=None,
-    ) # User | 
+    user = User(User) # User | 
 
     # example passing only required values which don't have defaults set
     try:
@@ -894,9 +856,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    client = Client(
-        client="client_example",
-    ) # Client | client model
+    client = Client(Client) # Client | client model
 
     # example passing only required values which don't have defaults set
     try:

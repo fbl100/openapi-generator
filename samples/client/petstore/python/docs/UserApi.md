@@ -40,16 +40,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    body = User(
-        id=1,
-        username="username_example",
-        first_name="first_name_example",
-        last_name="last_name_example",
-        email="email_example",
-        password="password_example",
-        phone="phone_example",
-        user_status=1,
-    ) # User | Created user object
+    body = User(User) # User | Created user object
 
     # example passing only required values which don't have defaults set
     try:
@@ -110,16 +101,7 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
     body = [
-        User(
-            id=1,
-            username="username_example",
-            first_name="first_name_example",
-            last_name="last_name_example",
-            email="email_example",
-            password="password_example",
-            phone="phone_example",
-            user_status=1,
-        ),
+        User(User),
     ] # [User] | List of user object
 
     # example passing only required values which don't have defaults set
@@ -181,16 +163,7 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
     body = [
-        User(
-            id=1,
-            username="username_example",
-            first_name="first_name_example",
-            last_name="last_name_example",
-            email="email_example",
-            password="password_example",
-            phone="phone_example",
-            user_status=1,
-        ),
+        User(User),
     ] # [User] | List of user object
 
     # example passing only required values which don't have defaults set
@@ -497,16 +470,7 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
     username = "username_example" # str | name that need to be deleted
-    body = User(
-        id=1,
-        username="username_example",
-        first_name="first_name_example",
-        last_name="last_name_example",
-        email="email_example",
-        password="password_example",
-        phone="phone_example",
-        user_status=1,
-    ) # User | Updated user object
+    body = User(User) # User | Updated user object
 
     # example passing only required values which don't have defaults set
     try:

@@ -110,24 +110,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    pet = Pet(
-        id=1,
-        category=Category(
-            id=1,
-            name="default-name",
-        ),
-        name="doggie",
-        photo_urls=[
-            "photo_urls_example",
-        ],
-        tags=[
-            Tag(
-                id=1,
-                name="name_example",
-            ),
-        ],
-        status="available",
-    ) # Pet | Pet object that needs to be added to the store
+    pet = Pet(Pet) # Pet | Pet object that needs to be added to the store
 
     # example passing only required values which don't have defaults set
     try:
@@ -686,24 +669,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pet_api.PetApi(api_client)
-    pet = Pet(
-        id=1,
-        category=Category(
-            id=1,
-            name="default-name",
-        ),
-        name="doggie",
-        photo_urls=[
-            "photo_urls_example",
-        ],
-        tags=[
-            Tag(
-                id=1,
-                name="name_example",
-            ),
-        ],
-        status="available",
-    ) # Pet | Pet object that needs to be added to the store
+    pet = Pet(Pet) # Pet | Pet object that needs to be added to the store
 
     # example passing only required values which don't have defaults set
     try:
