@@ -923,9 +923,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      *                    ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
+     * @param seenSchemas
      * @return the string example
      */
-    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, Set<String> processedModels) {
+    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, Set<Schema> seenSchemas) {
         final String indentionConst = "    ";
         String currentIndentation = "";
         String closingIndentation = "";
@@ -949,17 +950,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (objExample != null) {
             example = objExample.toString();
         }
-
-        // check for recursive model
-        if (processedModels.contains(modelName)) {
-            // have already processed this model
-            // this happens when you have recursive or circular models
+        // ADDED
+        if (seenSchemas.contains(schema)){
             return fullPrefix + modelName + closeChars;
-        } else if(modelName != null && !modelName.isEmpty()){
-            // if the model is non-null and non-empty, add it to the set
-            processedModels.add(modelName);
         }
-
 
         if (null != schema.get$ref()) {
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
@@ -970,7 +964,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 return fullPrefix + "None" + closeChars;
             }
             String refModelName = getModelName(schema);
-            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, processedModels);
+            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, seenSchemas);
         } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -1068,7 +1062,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel+1, "", exampleLine+1, processedModels) + ",\n" + closingIndentation + "]" + closeChars;
+            seenSchemas.add(schema);
+            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel+1, "", exampleLine+1, seenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
             return example;
         } else if (ModelUtils.isMapSchema(schema)) {
             if (modelName == null) {
@@ -1087,7 +1082,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
                 String addPropPrefix = ensureQuotes(key) + ": ";
                 String addPropsModelName = getModelName(addPropsSchema);
-                example = fullPrefix + "\n" +  toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, processedModels) + ",\n" + closingIndentation + closeChars;
+                seenSchemas.add(schema);
+                example = fullPrefix + "\n" +  toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, seenSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
             }
@@ -1110,7 +1106,11 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     return fullPrefix + closeChars;
                 }
             }
-            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation);
+            //ADDED
+            seenSchemas.add(schema);
+            String foo = exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, seenSchemas);
+            seenSchemas.remove(schema);
+            return foo;
         } else if (ModelUtils.isComposedSchema(schema)) {
             // TODO add examples for composed schema models without discriminators
 
@@ -1124,7 +1124,11 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     CodegenProperty cp = new CodegenProperty();
                     cp.setName(disc.getPropertyName());
                     cp.setExample(discPropNameValue);
-                    return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation);
+                    //ADDED
+                    seenSchemas.add(modelSchema);
+                    String foo = exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, seenSchemas);
+                    seenSchemas.remove(modelSchema);
+                    return foo;
                 } else {
                     return fullPrefix + closeChars;
                 }
@@ -1137,7 +1141,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         return example;
     }
 
-    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation) {
+    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, Set<Schema> seenSchemas) {
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
@@ -1157,7 +1161,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 propModelName = getModelName(propSchema);
                 propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
             }
-            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, Sets.newHashSet()) + ",\n";
+            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, seenSchemas) + ",\n";
         }
         // TODO handle additionalProperties also
         example += closingIndentation + closeChars;
