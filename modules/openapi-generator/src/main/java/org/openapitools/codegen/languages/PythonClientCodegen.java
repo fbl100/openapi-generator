@@ -923,7 +923,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      *                    ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
-     * @param seenSchemas
+     * @param seenSchemas This set contains all the schemas passed into the recursive function. It is used to check
+     *                    if a schema was already passed into the function and breaks the infinite recursive loop. The
+     *                    only schemas that are not added are ones that contain $ref != null
      * @return the string example
      */
     private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, Set<Schema> seenSchemas) {
@@ -950,7 +952,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (objExample != null) {
             example = objExample.toString();
         }
-        // ADDED
+        // checks if the current schema has already been passed in. If so, breaks the current recursive pass
         if (seenSchemas.contains(schema)){
             return fullPrefix + modelName + closeChars;
         }
@@ -1062,6 +1064,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
+            // Adds schema to seen schemas, runs recursive function, and when done removes it from the seen schemas.
             seenSchemas.add(schema);
             example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel+1, "", exampleLine+1, seenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
             return example;
@@ -1082,6 +1085,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
                 String addPropPrefix = ensureQuotes(key) + ": ";
                 String addPropsModelName = getModelName(addPropsSchema);
+                // Adds schema to seen schemas, runs recursive function, and when done removes it from the seen schemas.
                 seenSchemas.add(schema);
                 example = fullPrefix + "\n" +  toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, seenSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
@@ -1106,7 +1110,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     return fullPrefix + closeChars;
                 }
             }
-            //ADDED
+            // Adds schema to seenSchemas before running example model function. romoves schema after running
+            // the function. It also doesnt keep track of any schemas within the ObjectModel.
             seenSchemas.add(schema);
             String foo = exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, seenSchemas);
             seenSchemas.remove(schema);
@@ -1124,7 +1129,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     CodegenProperty cp = new CodegenProperty();
                     cp.setName(disc.getPropertyName());
                     cp.setExample(discPropNameValue);
-                    //ADDED
+                    // Adds schema to seenSchemas before running example model function. romoves schema after running
+                    // the function. It also doesnt keep track of any schemas within the ObjectModel.
                     seenSchemas.add(modelSchema);
                     String foo = exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, seenSchemas);
                     seenSchemas.remove(modelSchema);
