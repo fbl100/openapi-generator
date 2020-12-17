@@ -954,7 +954,11 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
         // checks if the current schema has already been passed in. If so, breaks the current recursive pass
         if (seenSchemas.contains(schema)){
-            return fullPrefix + modelName + closeChars;
+            if (modelName != null) {
+                return fullPrefix + modelName + closeChars;
+            } else {
+                return fullPrefix + "None" + closeChars;
+            }
         }
 
         if (null != schema.get$ref()) {
