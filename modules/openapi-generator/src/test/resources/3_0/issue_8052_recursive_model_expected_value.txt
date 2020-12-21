@@ -3,7 +3,7 @@ GeoJsonGeometry(
         geometries=[
             GeoJsonGeometry(
                 type="GeometryCollection",
-                geometries=None,
+                geometries=[],
             ),
         ],
     )

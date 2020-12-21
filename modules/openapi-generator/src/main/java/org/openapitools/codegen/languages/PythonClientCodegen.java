@@ -957,7 +957,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             if (modelName != null) {
                 return fullPrefix + modelName + closeChars;
             } else {
-                return fullPrefix + "None" + closeChars;
+                return fullPrefix + "[]" + closeChars;
             }
         }
 
